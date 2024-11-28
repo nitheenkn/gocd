@@ -1,0 +1,25 @@
+format_version: 10
+pipelines:
+  pull_nginx_pipeline:
+    group: dockerGroup
+    label_template: '${COUNT}'
+    lock_behavior: none
+    materials:
+      git:
+        url: https://your-repo-url
+        branch: main
+    stages:
+      - pull_docker_image_stage:
+          clean_workspace: true
+          jobs:
+            pull_docker_image_job:
+              tasks:
+                - exec:
+                    command: docker
+                    arguments:
+                      - pull
+                      - nginx:latest
+                - exec:
+                    command: docker
+                    arguments:
+                      - images
